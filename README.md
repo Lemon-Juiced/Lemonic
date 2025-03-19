@@ -7,14 +7,18 @@ The name "Lemonic" combines "Lemon" (inspired by the developer) and "Demonic" (r
 
 ## How it Works
 Lemonic relies on existing C tools, such as `gcc`.  
-When a Lemonic program is compiled, it is first translated into an equivalent C program, which is then compiled using a standard C compiler.
+When a Lemonic program is compiled, it is first translated into an equivalent C program, which is then compiled using a standard C compiler.  
+The file extension for a Lemonic program is `.lmc`.
 
 ### Compiler
 The Lemonic compiler, `lemonicomp`, is nowhere near started.
 
 ## Completed
 - `ArrayList.c`, `ArrayList.h`, and `ArrayListTest.c`
-  - Ideally, the syntax for this should be different, but this atleast functions as is.
+  - ArrayList Implementation
+  - Ideally, the syntax for this should be more similar to other languages, but this atleast functions as is.
+- `Print.c` and `Print.h`
+  - Adds additional print functions.
 
 ## In Progress
 - `String.c`, `String.h`, and `StringTest.c`
