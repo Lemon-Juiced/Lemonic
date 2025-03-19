@@ -1,0 +1,8 @@
+# Compiled object files
+*.o
+
+# Compiled dynamic libraries
+*.exe
+
+# IDE specific files
+.vscode/
