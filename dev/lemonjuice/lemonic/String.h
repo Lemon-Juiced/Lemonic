@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /**
  * The String "class" is a set-sized character array that can store any text data.abort
@@ -24,6 +25,11 @@ typedef struct {
     // Member Functions
     void (*append)(void* self, char c);
     int (*getSize)(void* self);
+    int (*firstOccurrence)(void* self, char c);
+    int (*lastOccurrence)(void* self, char c);
+    String* (*substring)(void* self, int start, int end);
+    String* (*split) (void* self, int index, bool front); 
+    String* (*copy) (void* self);
 } String;
 
 // Function Prototypes
@@ -32,3 +38,8 @@ String* newString();
 void destroyString(void* self);
 void append(void* self, char c);
 int getSize(void* self);
+int firstOccurrence(void* self, char c);
+int lastOccurrence(void* self, char c);
+String* substring(void* self, int start, int end);
+String* split(void* self, int index, bool front);
+String* copy(void* self);
