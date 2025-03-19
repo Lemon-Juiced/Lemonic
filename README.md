@@ -12,7 +12,11 @@ Lemonic relies on existing C tools. When a Lemonic program is compiled, it is fi
 The Lemonic compiler, `lemonicomp`, is nowhere near started.
 
 ## Completed
-- `ArrayList.c` and `ArrayListTest.c`
+- `ArrayList.c`, `ArrayList.h`, and `ArrayListTest.c`
+  - Ideally, the syntax for this should be different, but this atleast functions as is.
+
+## In Progress
+- `String.c`, `String.h`, and `StringTest.c`
 
 ## To Do:
 - `lemonicomp` Compiler
