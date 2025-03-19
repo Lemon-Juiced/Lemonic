@@ -13,13 +13,14 @@
  * 
  * The class also contains a few functions to manipulate the array:
  * - createArrayList: Creates a new ArrayList with a given capacity.
+ * - newArrayList: Creates a new ArrayList with default capacity and growth factor.
  * - destroyArrayList: Frees the memory used by the ArrayList.
  * - addElement: Adds an element to the end of the ArrayList.
  * - removeElement: Removes an element from the ArrayList.
  * - get: Gets an element from the ArrayList.
  * - set: Sets an element in the ArrayList.
- * - size: Returns the number of elements in the ArrayList.
- * - capacity: Returns the capacity of the ArrayList.
+ * - getSize: Returns the number of elements in the ArrayList.
+ * - getCapacity: Returns the capacity of the ArrayList.
  * 
  * When the capacity of the ArrayList is reached, the array is reallocated with a larger capacity.
  * The new capacity is calculated as the old capacity multiplied by a growth factor (e.g., 2).

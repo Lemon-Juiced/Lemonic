@@ -1,6 +1,6 @@
+#include "ArrayList.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "ArrayList.h"
 
 /**
  * Creates a new ArrayList with a given capacity.
