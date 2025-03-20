@@ -27,6 +27,7 @@ The Lemonic compiler, `lemonicomp`, is nowhere near started.
   
 ### In Progress
 - The Compiler: `lemonicomp.c` based off current implementation.
+  - Need to add compiler flags
 
 ### To Do:
 - Implementations for a lot of features.

@@ -48,7 +48,9 @@ int isValidLemonicFile(const char *filename) {
  * Steps:
  * 1. Check if the correct number of arguments is provided.
  * 2. Check if the input file is a valid Lemonic file.
- * 
+ * ...
+ * Unknown Step. Add as EOL comments in the C file that reference the line from the Lemonic file, for error handling.
+ * ...
  * Last. Hand the newly created C file to the C compiler.
  * 
  * @argc The number of command line arguments.
