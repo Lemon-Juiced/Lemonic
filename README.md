@@ -1,6 +1,6 @@
 # Lemonic C
 
-Lemonic C, or simply Lemonic, is a new superset of C designed to simplify and enhance the language.
+Lemonic C, or simply Lemonic, is a new derivative of C designed to simplify and enhance the language.
 
 ## What is Lemonic?
 The name "Lemonic" combines "Lemon" (inspired by the developer) and "Demonic" (reflecting the challenging nature of creating this language). Although the full name is Lemonic C, it is often abbreviated to just Lemonic.
@@ -17,11 +17,11 @@ The Lemonic compiler, `lemonicomp`, is nowhere near started.
 - `ArrayList.c`, `ArrayList.h`, and `ArrayListTest.c`
   - ArrayList Implementation
   - Ideally, the syntax for this should be more similar to other languages, but this atleast functions as is.
+- `LString.c`, `LString.h`, and `LStringTest.c`
+  - String Implementation
+  - Ideally, the syntax for this should be more similar to other languages, but this atleast functions as is.
 - `Print.c` and `Print.h`
   - Adds additional print functions.
-
-## In Progress
-- `String.c`, `String.h`, and `StringTest.c`
 
 ## To Do:
 - `lemonicomp` Compiler
