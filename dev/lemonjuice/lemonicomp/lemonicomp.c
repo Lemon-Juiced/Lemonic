@@ -99,11 +99,20 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Open the input file for reading
+
+    // Close the input file after reading
+
+    // Write the C code to the output file
+
+    // Close the output file
+    fclose(outputFile);
+
     // If the -c flag is not provided, delete the C file after compilation
     if (!keepCFile) {
         // Delete the C file after compilation
         if (remove(outputFileName) != 0) {
-            fprintf(stderr, "Error: Could not delete output file.\n"); // I'm currently getting this when trying to deleter so unexpected bug, needs more time to fix though.
+            fprintf(stderr, "Error: Could not delete output file.\n");
             fclose(outputFile);
             free(outputFileName);
             return 1;
