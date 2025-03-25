@@ -10,7 +10,7 @@ OBJ = ArrayList.o ArrayListTest.o
 TARGET = ArrayListTest
 
 # Default rule
-all: $(TARGET)
+all: $(TARGET) clean_objs
 
 # Rule to build the target executable
 $(TARGET): $(OBJ)
@@ -23,6 +23,10 @@ ArrayList.o: ../../ArrayList.c
 # Rule to compile ArrayListTest.c
 ArrayListTest.o: ArrayListTest.c
 	$(CC) $(CFLAGS) -c ArrayListTest.c -o ArrayListTest.o
+
+# Rule to clean object files after build
+clean_objs:
+	rm -f $(OBJ)
 
 # Clean rule
 clean:

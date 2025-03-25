@@ -10,7 +10,7 @@ OBJ = LString.o Print.o PrintTest.o
 TARGET = PrintTest
 
 # Default rule
-all: $(TARGET)
+all: $(TARGET) clean_objs
 
 # Rule to build the target executable
 $(TARGET): $(OBJ)
@@ -27,6 +27,10 @@ Print.o: ../../Print.c
 # Rule to compile PrintTest.c
 PrintTest.o: PrintTest.c
 	$(CC) $(CFLAGS) -c PrintTest.c -o PrintTest.o
+
+# Rule to clean object files after build
+clean_objs:
+	rm -f $(OBJ)
 
 # Clean rule
 clean:

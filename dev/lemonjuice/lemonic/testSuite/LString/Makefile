@@ -10,7 +10,7 @@ OBJ = LString.o LStringTest.o
 TARGET = LStringTest
 
 # Default rule
-all: $(TARGET)
+all: $(TARGET) clean_objs
 
 # Rule to build the target executable
 $(TARGET): $(OBJ)
@@ -23,6 +23,10 @@ LString.o: ../../LString.c
 # Rule to compile LStringTest.c
 LStringTest.o: LStringTest.c
 	$(CC) $(CFLAGS) -c LStringTest.c -o LStringTest.o
+
+# Rule to clean object files after build
+clean_objs:
+	rm -f $(OBJ)
 
 # Clean rule
 clean:
