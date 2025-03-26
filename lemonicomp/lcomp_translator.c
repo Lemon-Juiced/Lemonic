@@ -11,7 +11,7 @@ char* translate(char* inputStr){
     if (strcmp(inputStr, "uint16") == 0) return "unsigned short";
     if (strcmp(inputStr, "int32") == 0) return "int";
     if (strcmp(inputStr, "uint32") == 0) return "unsigned";
-    if (strcmp(inputStr, "int64") == 0) return "long";
-    if (strcmp(inputStr, "uint64") == 0) return "unsigned long";
+    if (strcmp(inputStr, "int64") == 0) return "long long";
+    if (strcmp(inputStr, "uint64") == 0) return "unsigned long long";
     else return inputStr; // Return the original string if no translation is found
 }
