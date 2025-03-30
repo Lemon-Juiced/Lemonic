@@ -1,6 +1,6 @@
 #import <Print.h>
 
-int main(){
+uint32 main(){
     String hello = "Hello, World!";
     println(hello);
     return 0;

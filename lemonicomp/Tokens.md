@@ -29,6 +29,8 @@ Double Symbols:
 - `&&` Logical And
 - `||` Logical Or
 - `//` Comment
+- `/*` Multi-Line Start Comment
+- `*/` Multi-Line End Comment
 - `/n` Newline
 - `/t` Tab
 - `++` Increment
@@ -40,12 +42,14 @@ Double Symbols:
 - `%=` Modulus And Set Equal To
 
 ### Keywords
-- `String` String declaration
-- `int16` Short Integer
-- `uint16` Unsigned Short Integer
-- `int32` Integer
-- `uint32` Unsigned Integer
-- `int64` Long Integer
-- `uint64` Unsigned Long Integer
+- `String` String Declaration
+- `int16` Short Integer Declaration
+- `uint16` Unsigned Short Integer Declaration
+- `int32` Integer Declaration
+- `uint32` Unsigned Integer Declaration
+- `int64` Long Integer Declaration
+- `uint64` Unsigned Long Integer Declaration
+- `void` Return Type Meaning No Return
+- `return` Returns the following value
 
 ### Non-Keywords

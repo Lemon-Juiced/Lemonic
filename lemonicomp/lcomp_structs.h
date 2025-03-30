@@ -10,7 +10,7 @@ typedef struct {
 } ProgamInfo;
 
 typedef struct {
-    char *name; // The name of the token
     char *value; // The value (contents) of the token
-    int type; // The type of the token
+    char *type; // The type of the token
+    int line; // The line number where the token was found
 } Token;
