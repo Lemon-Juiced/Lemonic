@@ -61,3 +61,29 @@ void setOutputFileName(int argc, char *argv[], ProgamInfo *programInfo) {
         }
     }
 }
+
+/**
+ * Prints the tokens to the console.
+ * 
+ * @param tokens The array of tokens to be printed.
+ * @param token_count The number of tokens in the array.
+ */
+void printTokens(Token* tokens, unsigned long token_count){
+    for (unsigned long i = 0; i < token_count; i++) {
+        printf("Token %lu: Value: %s, Type: %s, Line: %d\n", i + 1, tokens[i].value, tokens[i].type, tokens[i].line);
+    } 
+}
+
+/**
+ * Frees the memory allocated for the tokens.
+ * 
+ * @param tokens The array of tokens to be freed.
+ * @param token_count The number of tokens in the array.
+ */
+void freeTokens(Token* tokens, unsigned long token_count){
+    for (unsigned long i = 0; i < token_count; i++) {
+        free(tokens[i].value); // Free the value string
+        free(tokens[i].type); // Free the type string
+    }
+    free(tokens); // Free the tokens array
+}

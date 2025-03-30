@@ -3,6 +3,7 @@
 #include <string.h>
 #include "lcomp_prototypes.h"
 #include "lcomp_structs.h"
+#include "lcomp_tokenizer.h"
 
 /**
  * Main function of the lemonicomp compiler.
@@ -25,6 +26,7 @@
  * 2. Check if the input file is a valid Lemonic file.
  * 3. Store arguments provided to the compiler as a struct.
  *    This is a little messy as the number of arguments is not fixed.
+ * 4. Tokenize the input file, so it can be more easily translated to C code.
  * ...
  * Unknown Step. Add as EOL comments in the C file that reference the line from the Lemonic file, for error handling.
  * ...
@@ -78,23 +80,31 @@ int main(int argc, char *argv[]) {    // 1. Check if the correct number of argum
         return 1;
     }
 
-    // Open the input file for reading
-    FILE *inputFile = fopen(programInfo.inputFile, "r");
-    if (inputFile == NULL) {
-        fprintf(stderr, "Error: Could not open input file.\n");
+    // 4. Tokenize the input file, so it can be more easily translated to C code.
+    unsigned long token_count = 0;
+    Token *tokens = parse(programInfo.inputFile, &token_count);
+    if (tokens == NULL) {
+        fprintf(stderr, "Error: Could not tokenize input file.\n");
         fclose(cFile);
         free(cFileName);
         return 1;
     }
 
+    // Debugging: Print the tokens to the console and free the tokens
+    printTokens(tokens, token_count);
+    freeTokens(tokens, token_count);
+
+    /* ---- Code past this point functions, but steps before it needs to be finished. ----- */
+
+    // Alot of this is technically wrong now because of the tokenizer.
     // Read the input file and write the C code to the output file
-    char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), inputFile) != NULL) {
-        fputs(buffer, cFile);
-    }
+    //char buffer[1024];
+    //while (fgets(buffer, sizeof(buffer), programInfo.inputFile) != NULL) {
+    //    fputs(buffer, cFile);
+    //}
 
     // Close the input file after reading
-    fclose(inputFile);
+    //fclose(programInfo.inputFile);
 
     // Close the output file
     fclose(cFile);
