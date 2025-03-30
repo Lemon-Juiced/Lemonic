@@ -8,3 +8,9 @@ typedef struct {
     char *outputFile; // The output file name
     bool keepCFile; // Flag to keep the C file after compilation
 } ProgamInfo;
+
+typedef struct {
+    char *name; // The name of the token
+    char *value; // The value (contents) of the token
+    int type; // The type of the token
+} Token;
