@@ -31,3 +31,7 @@ If you would like to contribute to this project, please follow these steps:
 - To contribute, open a pull request.
 - To report a bug, open an issue.
 - For suggestions or requests, open an issue.
+
+## Other Resources
+Documentation - Not Yet Available  
+[Style Guide](https://github.com/Lemon-Juiced/Lemonic/blob/main/StyleGuide.md)  
