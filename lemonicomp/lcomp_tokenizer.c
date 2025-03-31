@@ -1,79 +1,88 @@
-#include "lcomp_tokenizer.h" 
+#include "lcomp_tokenizer.h"
+
+#define LINE_BUFFER_SIZE 1024 // A reasonable buffer size for a line of text
 
 /**
- * Parses the input string and returns an array of tokens.
+ * Reads a line from the file and tokenizes it.
  * 
- * @param input_file The input file to be parsed.
- * @param token_count A pointer to an unsigned long variable to store the number of tokens found.
- *                    Since this is a pointer, the value will be updated in the calling function.
- *                    As such this value is mutated by this function.
- * @return A pointer to an array of tokens.
+ * @param line The line to tokenize.
+ * @param tokens A pointer to the array of tokens.
+ * @param size A pointer to the current size of the tokens array.
+ * @param capacity A pointer to the current capacity of the tokens array.
+ * @param line_number The line number of the current line.
+ * @return 0 on success, -1 on failure.
  */
-Token* parse(char* input_file, unsigned long* token_count){
-    // Since the input is a file, we need to read the file line by line.
-    // Open the input file for reading
-    FILE* file = fopen(input_file, "r"); // Open the file in read mode
-    if (file == NULL) {
-        fprintf(stderr, "Error: Could not open file %s\n", input_file);
-        return NULL; // Return NULL if the file cannot be opened
-    }
-    
-    // Convert the contents of input_file (a file) to a input (a string)
-    // Read the file line by line and store it in a string
-    char* input = (char*)malloc(1024 * sizeof(char)); // Allocate memory for the input string
-    if (input == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        fclose(file); // Close the file before returning
-        return NULL; // Return NULL if memory allocation fails
-    }
-    size_t len = 0; // Length of the input string
-    while (fgets(input + len, 1024 - len, file) != NULL) { // Read the file line by line
-        len += strlen(input + len); // Update the length of the input string
-        if (len >= 1024) { // Check if the input string is too long
-            fprintf(stderr, "Input string is too long\n");
-            free(input); // Free the allocated memory before returning
-            fclose(file); // Close the file before returning
-            return NULL; // Return NULL if the input string is too long
-        }
-    }
-    fclose(file); // Close the file after reading
-
-    // Set the initial number of tokens to 0
-    *token_count = 0; // Set to 0 to start with
-
-    // Allocate memory for the tokens array
-    Token* tokens = (Token*)malloc(sizeof(Token) * 10); // Start with 10 tokens
-    if (tokens == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return NULL; // Return NULL if memory allocation fails
-    }
-
-    unsigned long capacity = 10; // Initial capacity of the tokens array
-    unsigned long size = 0; // Current size of the tokens array
-
-    // This is the main loop that will parse the input string
-    char* token = strtok(input, " \n"); // Tokenize the input string using space and newline as delimiters (this is naive and should be improved)
+int tokenizeLine(char* line, Token** tokens, unsigned long* size, unsigned long* capacity, int line_number) {
+    char* token = strtok(line, " \n"); // Tokenize the line using space and newline as delimiters (needs to be changed to a more complex tokenizer)
     while (token != NULL) {
-        // Check if we need to resize the tokens array
-        if (size >= capacity) {
-            capacity *= 2; // Double the capacity
-            tokens = (Token*)realloc(tokens, sizeof(Token) * capacity); // Resize the array
-            if (tokens == NULL) {
+        // Resize the tokens array if needed
+        if (*size >= *capacity) {
+            *capacity *= 2;
+            *tokens = (Token*)realloc(*tokens, sizeof(Token) * (*capacity));
+            if (*tokens == NULL) {
                 fprintf(stderr, "Memory reallocation failed\n");
-                return NULL; // Return NULL if memory reallocation fails
+                return -1;
             }
         }
 
-        // Create a new token and add it to the tokens array
-        tokens[size] = createToken(token, "TOKEN", 1); // To Do: Replace "TOKEN" with actual type. Requires the tokens to be fully separated first.
-        size++; // Increment the size of the tokens array
+        // Create a new token and add it to the array
+        (*tokens)[*size] = createToken(token, "TOKEN", line_number); // Replace "TOKEN" with actual logic
+        (*size)++;
 
-        token = strtok(NULL, " \n"); // Get the next token
+        token = strtok(NULL, " \n");
     }
-    
-    // Finally, return the tokens array and update the token count
-    *token_count = size; // Update the token count
-    return tokens; // Return the tokens array
+    return 0;
+}
+
+/**
+ * Parses the input file and returns an array of tokens.
+ * 
+ * @param input_file The input file to be parsed.
+ * @param token_count A pointer to an unsigned long variable to store the number of tokens found.
+ * @return A pointer to an array of tokens.
+ */
+Token* parse(char* input_file, unsigned long* token_count) {
+    FILE* file = fopen(input_file, "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Could not open file %s\n", input_file);
+        return NULL;
+    }
+
+    Token* tokens = (Token*)malloc(sizeof(Token) * 10);
+    if (tokens == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        fclose(file);
+        return NULL;
+    }
+
+    unsigned long capacity = 10;
+    unsigned long size = 0;
+    char* line = (char*)malloc(LINE_BUFFER_SIZE); // Allocate a buffer for reading lines
+    if (line == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        free(tokens);
+        fclose(file);
+        return NULL;
+    }
+
+    int line_number = 0; // Initialize line number
+    while (fgets(line, LINE_BUFFER_SIZE, file) != NULL) {
+        // Remove trailing newline character
+        line[strcspn(line, "\n")] = 0;
+        line_number++; // Increment line number
+        if (tokenizeLine(line, &tokens, &size, &capacity, line_number) == -1) {
+            free(tokens);
+            free(line);
+            fclose(file);
+            return NULL;
+        }
+    }
+
+    free(line);
+    fclose(file);
+
+    *token_count = size;
+    return tokens;
 }
 
 /**
@@ -84,22 +93,23 @@ Token* parse(char* input_file, unsigned long* token_count){
  * @param line The line number where the token was found.
  * @return The newly created token.
  */
-Token createToken(char* value, char* type, int line){
+Token createToken(char* value, char* type, int line) {
     Token token;
-    token.value = (char*)malloc(strlen(value) + 1); // Allocate memory for the value
+    token.value = (char*)malloc(strlen(value) + 1);
     if (token.value == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        return token; // Return an empty token if memory allocation fails
+        return token;
     }
-    strcpy(token.value, value); // Copy the value to the token
-    token.type = (char*)malloc(strlen(type) + 1); // Allocate memory for the type
+    strcpy(token.value, value);
+
+    token.type = (char*)malloc(strlen(type) + 1);
     if (token.type == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        free(token.value); // Free the previously allocated memory for value
-        return token; // Return an empty token if memory allocation fails
+        free(token.value);
+        return token;
     }
-    strcpy(token.type, type); // Copy the type to the token
-    token.line = line; // Set the line number
+    strcpy(token.type, type);
 
-    return token; // Return the newly created token
+    token.line = line;
+    return token;
 }
