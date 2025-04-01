@@ -2,7 +2,10 @@
 Lemonic C, or simply Lemonic, is a new derivative of C designed to simplify and enhance the language.
 
 ## What is Lemonic?
-The name "Lemonic" combines "Lemon" (inspired by the developer) and "Demonic" (reflecting the challenging nature of creating this language). Although the full name is Lemonic C, it is often abbreviated to just Lemonic. The project started as a superset of C, similar to C++, but evolved into a more customized language with its own syntax and semantics.
+The name "Lemonic" combines "Lemon" (inspired by the developer) and "Demonic" (reflecting the challenging nature of creating this language). Although the full name is Lemonic C, it is often abbreviated to just Lemonic. 
+
+### History & Original Intent
+Initially, the project aimed to be a superset of C, much like C++, but it gradually evolved into a distinct language with its own syntax and semantics. Features absent in C but present in higher-level languages, such as templates in C++, influenced this transformation. Currently, the project includes components written in both C and C++, with Makefiles distributed across the project for building and testing. Moving forward, the focus will remain on these three languages, but alternative tools or languages may be considered if they provide a clear advantage for specific tasks.
 
 ## How it Works
 Lemonic uses existing C and C++ tools, such as `gcc` and `g++`. When a Lemonic program is compiled, it is first translated into an equivalent C/C++ program, which is then compiled using the standard GNU compilers. The file extension for a Lemonic program is `.lmc` and is compiled via the Lemonic compiler, `lemonicomp`.
