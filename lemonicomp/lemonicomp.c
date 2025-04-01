@@ -49,20 +49,13 @@ int main(int argc, char *argv[]) {
     char *programName = removePath(argv[0]);
 
     // 2. Check if the correct number of arguments is provided
-    if (argc < 2 || argc > 4) {
-        printUsage(programName); // This will also exit the program
-    }
+    if (argc < 2 || argc > 4) printUsage(programName); 
 
     // 3. Check for alternate usage of the program, if the -help flag is provided, then end early.
-    if (argc == 2 && strcmp(argv[1], "-help") == 0) {
-        printUsageWithHelp(programName); // This will also exit the program
-    }
+    if (argc == 2 && strcmp(argv[1], "-help") == 0) printUsageWithHelp(programName); 
 
     // 4. Check if the input file is a valid Lemonic file
-    if (!isValidLemonicFile(argv[1])) {
-        fprintf(stderr, "Error: Invalid Lemonic file.\nPlease provide a .lmc file.\n");
-        return 1;
-    }
+    if (!isValidLemonicFile(argv[1])) printError("Invalid Lemonic file. Please provide a .lmc file.");
 
     // 5. Store arguments provided to the compiler as a struct.
     ProgamInfo programInfo;
@@ -80,27 +73,23 @@ int main(int argc, char *argv[]) {
 
     // Create a new C file with the same name as the input file, but with a .c extension
     char *cFileName = (char *)malloc(strlen(programInfo.outputFile) + 3);
-    if (cFileName == NULL) {
-        fprintf(stderr, "Error: Could not allocate memory for C file name.\n");
-        return 1;
-    }
+    if (cFileName == NULL) printError("Memory allocation failed for C file name.");
+
     strcpy(cFileName, programInfo.outputFile);
     strcat(cFileName, ".c");
     FILE *cFile = fopen(cFileName, "w");
     if (cFile == NULL) {
-        fprintf(stderr, "Error: Could not create output file.\n");
         free(cFileName);
-        return 1;
+        printError("Could not create output file.");
     }
 
     // 6. Tokenize the input file, so it can be more easily translated to C code.
     unsigned long token_count = 0;
     Token *tokens = parse(programInfo.inputFile, &token_count);
     if (tokens == NULL) {
-        fprintf(stderr, "Error: Could not tokenize input file.\n");
         fclose(cFile);
         free(cFileName);
-        return 1;
+        printError("Could not tokenize input file.");
     }
 
     // Debugging: Print the tokens to the console and free the tokens
@@ -125,9 +114,8 @@ int main(int argc, char *argv[]) {
     // If the -c flag is not provided, delete the C file after compilation
     if (programInfo.keepCFile == false) {
         if (remove(cFileName) != 0) {
-            fprintf(stderr, "Error: Could not delete output file.\n");
             free(cFileName);
-            return 1;
+            printError("Could not delete the C file after compilation.");
         }
     }
 

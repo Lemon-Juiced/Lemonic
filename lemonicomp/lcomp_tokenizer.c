@@ -19,10 +19,7 @@ int tokenizeLine(char* line, Token** tokens, unsigned long* size, unsigned long*
         if (*size >= *capacity) {
             *capacity *= 2;
             *tokens = (Token*)realloc(*tokens, sizeof(Token) * (*capacity));
-            if (*tokens == NULL) {
-                fprintf(stderr, "Memory reallocation failed\n");
-                return -1;
-            }
+            if (*tokens == NULL) printError("Memory reallocation failed");
         }
 
         // Create a new token and add it to the array
@@ -43,15 +40,12 @@ int tokenizeLine(char* line, Token** tokens, unsigned long* size, unsigned long*
  */
 Token* parse(char* input_file, unsigned long* token_count) {
     FILE* file = fopen(input_file, "r");
-    if (file == NULL) {
-        fprintf(stderr, "Error: Could not open file %s\n", input_file);
-        return NULL;
-    }
+    if (file == NULL) printError("Could not open input file.");
 
     Token* tokens = (Token*)malloc(sizeof(Token) * 10);
     if (tokens == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
         fclose(file);
+        printError("Memory allocation failed for tokens array.");
         return NULL;
     }
 
@@ -59,10 +53,9 @@ Token* parse(char* input_file, unsigned long* token_count) {
     unsigned long size = 0;
     char* line = (char*)malloc(LINE_BUFFER_SIZE); // Allocate a buffer for reading lines
     if (line == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
         free(tokens);
         fclose(file);
-        return NULL;
+        printError("Memory allocation failed for line buffer.");
     }
 
     int line_number = 0; // Initialize line number
@@ -74,7 +67,7 @@ Token* parse(char* input_file, unsigned long* token_count) {
             free(tokens);
             free(line);
             fclose(file);
-            return NULL;
+            printError("Tokenization failed.");
         }
     }
 
@@ -97,16 +90,14 @@ Token createToken(char* value, char* type, int line) {
     Token token;
     token.value = (char*)malloc(strlen(value) + 1);
     if (token.value == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return token;
+        printError("Memory allocation failed for token value.");
     }
     strcpy(token.value, value);
 
     token.type = (char*)malloc(strlen(type) + 1);
     if (token.type == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
         free(token.value);
-        return token;
+        printError("Memory allocation failed for token type.");
     }
     strcpy(token.type, type);
 
