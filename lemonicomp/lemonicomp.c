@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "lcomp_err.h"
 #include "lcomp_prototypes.h"
 #include "lcomp_structs.h"
 #include "lcomp_tokenizer.h"
@@ -26,12 +27,13 @@
  * This will print the usage of the program to the console and exit.
  * 
  * Steps:
- * 1. Check if the correct number of arguments is provided.
- * 2. Check for alternate usage of the program, if the -help flag is provided, then end early.
- * 3. Check if the input file is a valid Lemonic file.
- * 4. Store arguments provided to the compiler as a struct.
+ * 1. Get program name without path.
+ * 2. Check if the correct number of arguments is provided.
+ * 3. Check for alternate usage of the program, if the -help flag is provided, then end early.
+ * 4. Check if the input file is a valid Lemonic file.
+ * 5. Store arguments provided to the compiler as a struct.
  *    This is a little messy as the number of arguments is not fixed.
- * 5. Tokenize the input file, so it can be more easily translated to C code.
+ * 6. Tokenize the input file, so it can be more easily translated to C code.
  * ...
  * Unknown Step. Add as EOL comments in the C file that reference the line from the Lemonic file, for error handling.
  * ...
@@ -43,28 +45,26 @@
  * @return 0 if successful, 1 if an error occurred.
  */
 int main(int argc, char *argv[]) {    
-    // 1. Check if the correct number of arguments is provided
+    // 1. Get program name without path
+    char *programName = removePath(argv[0]);
+
+    // 2. Check if the correct number of arguments is provided
     if (argc < 2 || argc > 4) {
-        // Get the name of the program from argv[0], but remove the path from it.
-        char *programName = removePath(argv[0]);
-        fprintf(stderr, "Usage: %s <input_file.lmc> <output_exe> (optional) [-c]\n", programName);
-        return 1;
+        printUsage(programName); // This will also exit the program
     }
 
-    // 2. Check for alternate usage of the program, if the -help flag is provided, then end early.
+    // 3. Check for alternate usage of the program, if the -help flag is provided, then end early.
     if (argc == 2 && strcmp(argv[1], "-help") == 0) {
-        printf("The lemonicomp compiler is a compiler for the Lemonic programming language.\n");
-        printf("Usage: %s <input_file.lmc> <output_exe> (optional) [-c]\n", argv[0]);
-        return 0;
+        printUsageWithHelp(programName); // This will also exit the program
     }
 
-    // 3. Check if the input file is a valid Lemonic file
+    // 4. Check if the input file is a valid Lemonic file
     if (!isValidLemonicFile(argv[1])) {
         fprintf(stderr, "Error: Invalid Lemonic file.\nPlease provide a .lmc file.\n");
         return 1;
     }
 
-    // 4. Store arguments provided to the compiler as a struct.
+    // 5. Store arguments provided to the compiler as a struct.
     ProgamInfo programInfo;
     programInfo.initialNumberOfArgs = argc;
     programInfo.inputFile = argv[1];
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // 5. Tokenize the input file, so it can be more easily translated to C code.
+    // 6. Tokenize the input file, so it can be more easily translated to C code.
     unsigned long token_count = 0;
     Token *tokens = parse(programInfo.inputFile, &token_count);
     if (tokens == NULL) {
