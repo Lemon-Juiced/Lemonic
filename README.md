@@ -13,13 +13,11 @@ Lemonic uses existing C and C++ tools, such as `gcc` and `g++`. When a Lemonic p
 ## Progress
 ### Completed
 - `ArrayList.cpp`, `ArrayList.h`, and `ArrayListTest.cpp`
-  - ArrayList Implementation (Uses C++ For Templates)
-- `LString.c`, `LString.h`, and `LStringTest.c`
-  - String Implementation (Uses C)
-  - The syntax should ideally be more similar to other languages, but it functions as is.
-- `Print.c`, `Print.h`, and `PrintTest.c`
-  - Print Implementations (Uses C)
-  - Additional print functions.
+  - ArrayList Implementation 
+- `StringUtils.cpp`, `StringUtils.h`, and `StringUtilsTest.cpp`
+  - String Utilities Implementation
+- `PrintUtils.cpp`, `PrintUtils.h`, and `PrintUtilsTest.cpp`
+  - Print Function Implementations 
 
 ### In Progress
 - The Compiler: `lemonicomp.c`
