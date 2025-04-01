@@ -1,10 +1,10 @@
-# Makefile for compiling and linking ArrayList and ArrayListTest
+# Compiler
+CC = g++
+CFLAGS = -Wall -Wextra -std=c++14
 
-CC = gcc
-CFLAGS = -I../../ -Wall -Wextra -std=c11
-
-# Object files
-OBJ = ArrayList.o ArrayListTest.o
+# Source files and object files
+SRC = ../../ArrayList.cpp ArrayListTest.cpp
+OBJ = $(SRC:.cpp=.o)
 
 # Target executable
 TARGET = ArrayListTest
@@ -16,18 +16,14 @@ all: $(TARGET) clean_objs
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
 
-# Rule to compile ArrayList.c
-ArrayList.o: ../../ArrayList.c
-	$(CC) $(CFLAGS) -c ../../ArrayList.c -o ArrayList.o
-
-# Rule to compile ArrayListTest.c
-ArrayListTest.o: ArrayListTest.c
-	$(CC) $(CFLAGS) -c ArrayListTest.c -o ArrayListTest.o
+# Pattern rule to compile .cpp files into .o files
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Rule to clean object files after build
 clean_objs:
 	rm -f $(OBJ)
 
-# Clean rule
+# Clean rule to remove all build artifacts
 clean:
 	rm -f $(OBJ) $(TARGET)

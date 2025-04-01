@@ -1,6 +1,8 @@
 #pragma once
-#include <stdio.h>
-#include <stdlib.h>
+#include <memory>
+#include <stdexcept>
+
+using namespace std;
 
 /**
  * The ArrayList "class" is a dynamic array that can store any type of data.
@@ -12,9 +14,7 @@
  * - growth_factor: The factor by which the array's capacity is increased when it is reallocated.
  * 
  * The class also contains a few functions to manipulate the array:
- * - createArrayList: Creates a new ArrayList with a given capacity.
- * - newArrayList: Creates a new ArrayList with default capacity and growth factor.
- * - destroyArrayList: Frees the memory used by the ArrayList.
+ * - Constructor & Destructor
  * - addElement: Adds an element to the end of the ArrayList.
  * - removeElement: Removes an element from the ArrayList.
  * - get: Gets an element from the ArrayList.
@@ -25,29 +25,24 @@
  * When the capacity of the ArrayList is reached, the array is reallocated with a larger capacity.
  * The new capacity is calculated as the old capacity multiplied by a growth factor (e.g., 2).
  */
-typedef struct {
-    // Data Members
-    void** data;
+template <typename T>
+class ArrayList {
+private:
+    unique_ptr<T[]> data; // Smart pointer for automatic memory management
     int size;
     int capacity;
-    int growth_factor;
+    int growthFactor;
 
-    // Member Functions
-    void (*add)(void* self, void* element);
-    void (*removeElement)(void* self, int index);
-    void* (*get)(void* self, int index);
-    void (*set)(void* self, int index, void* element);
-    int (*getSize)(void* self);
-    int (*getCapacity)(void* self);
-} ArrayList;
+    void resize();
 
-// Function Prototypes
-ArrayList* createArrayList(int capacity, int growth_factor);
-ArrayList* newArrayList();
-void destroyArrayList(void* self);
-void add(void* self, void* element);
-void removeElement(void* self, int index);
-void* get(void* self, int index);
-void set(void* self, int index, void* element);
-int getSize(void* self);
-int getCapacity(void* self);
+public:
+    ArrayList(int initialCapacity = 10, int growthFactor = 2);
+    ~ArrayList();
+
+    void add(const T& element);
+    void remove(int index);
+    T get(int index) const;
+    void set(int index, const T& element);
+    int getSize() const;
+    int getCapacity() const;
+};
