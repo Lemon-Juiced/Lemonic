@@ -28,6 +28,7 @@ Lemonic uses existing C and C++ tools, such as `gcc` and `g++`. When a Lemonic p
 
 ### To Do
 - Implementations for many features.
+- C "interoperability", or an ability to execute C code as a String or File from within Lemonic.
 
 ## Contribution, Bugs, & Suggestions
 If you would like to contribute to this project, please follow these steps:
